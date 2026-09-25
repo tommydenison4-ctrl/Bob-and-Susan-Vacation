@@ -1,3 +1,3 @@
 'use client';
 import {useEffect} from 'react';
-export default function RegisterSW(){useEffect(()=>{if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{})},[]);return null}
+export default function RegisterSW(){useEffect(()=>{if(!('serviceWorker' in navigator))return;navigator.serviceWorker.register('/sw.js',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{})},[]);return null}
