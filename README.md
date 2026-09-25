@@ -2,7 +2,7 @@
 
 A mobile-first dark-mode travel companion built from Bob & Susan's trip book.
 
-<!-- deployment refresh -->
+<!-- deployment refresh retry 2026-09-25 -->
 
 ## Included now
 - Nov 12–26 itinerary and day pages
