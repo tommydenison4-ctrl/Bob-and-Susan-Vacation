@@ -1,0 +1,20 @@
+'use client';
+import {useEffect,useMemo,useState} from 'react';
+import {marinaExperiences,MarinaExperience} from '@/data/marinaExperiences';
+import {listMemories,saveMemory,MemoryRecord} from '@/lib/memoryStore';
+
+type State={done:boolean;note?:string;memoryId?:string};
+type Saved=Record<string,State>;
+const KEY='bs-marina-experiences-v1';
+
+export default function CruiseExperiences(){
+ const [saved,setSaved]=useState<Saved>({});const [open,setOpen]=useState<MarinaExperience|null>(null);const [note,setNote]=useState('');const [photos,setPhotos]=useState<Record<string,string>>({});
+ useEffect(()=>{try{setSaved(JSON.parse(localStorage.getItem(KEY)||'{}'))}catch{};listMemories().then(rows=>{const next:Record<string,string>={};rows.forEach(m=>{if(m.explanation?.startsWith('Marina experience:')){const id=m.explanation.replace('Marina experience:','').trim();next[id]=URL.createObjectURL(m.blob)}});setPhotos(next)}).catch(()=>{})},[]);
+ const counts=useMemo(()=>({done:Object.values(saved).filter(x=>x.done).length,total:marinaExperiences.length}),[saved]);
+ function persist(next:Saved){setSaved(next);localStorage.setItem(KEY,JSON.stringify(next))}
+ function toggle(id:string){const current=saved[id]||{done:false};persist({...saved,[id]:{...current,done:!current.done}})}
+ function edit(x:MarinaExperience){setOpen(x);setNote(saved[x.id]?.note||'')}
+ async function addPhoto(file:File,x:MarinaExperience){const m:MemoryRecord={id:`cruise-${x.id}-${Date.now()}`,dayId:'cruise',blob:file,kind:'image',mimeType:file.type||'image/jpeg',fileName:file.name||`${x.id}.jpg`,landmark:x.title,explanation:`Marina experience: ${x.id}`,personal:note,takenAt:new Date().toISOString()};await saveMemory(m);setPhotos(p=>({...p,[x.id]:URL.createObjectURL(file)}));persist({...saved,[x.id]:{...(saved[x.id]||{done:true}),done:true,note,memoryId:m.id}})}
+ function saveDetail(){if(!open)return;persist({...saved,[open.id]:{...(saved[open.id]||{done:true}),done:true,note}});setOpen(null)}
+ return <div className="card"><div className="eyebrow">MARINA · THINGS TO TRY</div><div className="portCard" style={{marginTop:6}}><div><h2 className="sectionTitle" style={{margin:0}}>Bob & Susan's onboard checklist</h2><div className="muted small">Tap once to mark an experience done. Double-click a tile, or use Add note/photo, to save a comment or picture.</div></div><span className="pill">{counts.done}/{counts.total} explored</span></div><div className="experienceGrid">{marinaExperiences.map(x=>{const s=saved[x.id];const done=!!s?.done;return <div key={x.id} className={`experienceTile ${done?'experienceDone':''}`} onDoubleClick={()=>edit(x)}><button type="button" className="experienceMain" onClick={()=>toggle(x.id)}><div className="experienceEmoji">{x.emoji}</div><div><div className="eyebrow">{done?'✓ CHECKED OUT':x.category.toUpperCase()}</div><strong>{x.title}</strong><div className="muted small">{x.deck?`${x.deck} · `:''}{x.timing}</div></div></button>{photos[x.id]&&<img className="experienceThumb" src={photos[x.id]} alt={`${x.title} memory`}/>}<div className="experienceFooter"><span className="muted small">{s?.note||x.detail}</span><button type="button" className="chip" onClick={()=>edit(x)}>Add note/photo</button></div></div>})}</div>{open&&<div className="soft experienceEditor"><div className="portCard"><div><div className="eyebrow">SAVE A MEMORY</div><h3 style={{margin:'4px 0'}}>{open.emoji} {open.title}</h3></div><button className="chip" onClick={()=>setOpen(null)}>Close</button></div><textarea className="input" rows={4} value={note} onChange={e=>setNote(e.target.value)} placeholder="What did Bob & Susan think? Favorite detail, drink, show, etc."/><div className="actionRow" style={{marginTop:10}}><label className="btn"><input type="file" accept="image/*" capture="environment" hidden onChange={e=>{const f=e.target.files?.[0];if(f)addPhoto(f,open)}}/>📷 Take / add photo</label><button className="btn primary" onClick={saveDetail}>Save note & mark done</button></div></div>}</div>
+}
