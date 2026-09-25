@@ -1,0 +1,4 @@
+const FLAGS:Record<string,string>={Italy:'🇮🇹',Malta:'🇲🇹',Tunisia:'🇹🇳',Spain:'🇪🇸',Canada:'🇨🇦','Canada / Italy':'🇨🇦 → 🇮🇹','Oceania Marina':'🚢'};
+const airCanada='https://commons.wikimedia.org/wiki/Special:Redirect/file/Air%20Canada%202017.svg';
+const oceania='https://commons.wikimedia.org/wiki/Special:Redirect/file/Oceania%20cruises%20logo.svg';
+export default function DayIdentity({country,kinds}:{country:string;kinds:string[]}){const hasFlight=kinds.includes('flight');const hasCruise=kinds.includes('cruise')||country==='Oceania Marina';return <div className="dayIdentity"><span className="countryFlag" aria-hidden>{FLAGS[country]||'🌍'}</span>{hasFlight&&<span className="brandBadge"><img src={airCanada} alt="Air Canada"/></span>}{hasCruise&&<span className="brandBadge oceaniaBadge"><img src={oceania} alt="Oceania Cruises"/><small>Marina</small></span>}</div>}
