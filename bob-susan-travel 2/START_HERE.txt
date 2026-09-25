@@ -1,0 +1,14 @@
+BOB & SUSAN TRAVEL — START HERE
+
+QUICK PREVIEW
+1. Double-click index.html.
+2. This shows the design/features without running the Next.js app.
+
+FULL APP
+1. Install Node.js 20+ if you do not already have it.
+2. Open Terminal in this folder.
+3. Run: npm install
+4. Run: npm run dev
+5. Open: http://localhost:3000
+
+The full app contains the interactive GPS, back-to-ship, daily route, camera/memory, weather, currency and local-time features. index.html is only a lightweight preview.

@@ -1,0 +1,8 @@
+'use client';
+import {useState} from 'react';
+type P={name:string;lat:number;lng:number};
+function distanceKm(a:{lat:number;lng:number},b:P){const R=6371,rad=(x:number)=>x*Math.PI/180;const dLat=rad(b.lat-a.lat),dLon=rad(b.lng-a.lng);const x=Math.sin(dLat/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
+export default function BackToShip({ship}:{ship?:P}){const [msg,setMsg]=useState(ship?'Tap to check your distance from the ship.':'No ship return today.');const [link,setLink]=useState<string|null>(ship?`https://www.google.com/maps/dir/?api=1&destination=${ship.lat},${ship.lng}&travelmode=walking`:null);
+ function locate(){if(!ship)return;if(!navigator.geolocation){setMsg('Location is not available on this device.');return}setMsg('Finding your location…');navigator.geolocation.getCurrentPosition(p=>{const here={lat:p.coords.latitude,lng:p.coords.longitude};const km=distanceKm(here,ship);setMsg(`You are about ${km<1?Math.round(km*1000)+' m':km.toFixed(1)+' km'} from ${ship.name}.`);setLink(`https://www.google.com/maps/dir/?api=1&origin=${here.lat},${here.lng}&destination=${ship.lat},${ship.lng}&travelmode=walking`)},()=>setMsg('Location permission was not granted. You can still open the ship location.'))}
+ return <div className="card accentBar"><div className="eyebrow">RETURN SAFETY</div><h3 className="sectionTitle" style={{marginTop:6}}>{ship?'Back to ship':'No return needed'}</h3><div className="muted">{msg}</div>{ship&&<div className="actionRow" style={{marginTop:12}}><button className="btn primary" onClick={locate}>Use my location</button>{link&&<a className="btn" target="_blank" rel="noreferrer" href={link}>Walking directions</a>}</div>}</div>
+}

@@ -1,0 +1,11 @@
+'use client';
+import {useEffect,useMemo,useState} from 'react';
+function fmt(t?:string){if(!t)return '';const [h,m]=t.split(':').map(Number);const d=new Date(2000,0,1,h,m);return d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}
+export default function ShipCountdown({date,departure,allAboard}:{date:string;departure?:string;allAboard?:string}){
+ const [saved,setSaved]=useState<string>('');const [txt,setTxt]=useState('—');
+ useEffect(()=>{try{setSaved(localStorage.getItem(`bs-allaboard-${date}`)||'')}catch{}},[date]);
+ const effective=saved||allAboard||departure;const official=Boolean(saved||allAboard);const target=useMemo(()=>effective?new Date(`${date}T${effective}:00`).getTime():0,[date,effective]);
+ useEffect(()=>{if(!effective){setTxt('No countdown today');return};const f=()=>{const d=target-Date.now();if(d<=0){setTxt('Time reached');return};const dd=Math.floor(d/86400000);if(dd>1){setTxt(`${dd} days`);return};const h=Math.floor(d/3600000),m=Math.floor((d%3600000)/60000),s=Math.floor((d%60000)/1000);setTxt(`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`)};f();const i=setInterval(f,1000);return()=>clearInterval(i)},[target,effective]);
+ function save(v:string){setSaved(v);try{if(v)localStorage.setItem(`bs-allaboard-${date}`,v);else localStorage.removeItem(`bs-allaboard-${date}`)}catch{}}
+ return <div className={`card ${effective?'dangerBar':''}`}><div className="eyebrow">BACK TO SHIP</div><div className="bigNumber">{txt}</div>{effective&&<><div className="muted">{official?'Official all-aboard':'Scheduled ship departure'}: {fmt(effective)}</div>{departure&&<div className="muted small" style={{marginTop:4}}>Ship departure: {fmt(departure)}</div>}<div className="allAboardEditor"><label className="eyebrow" htmlFor={`aa-${date}`}>ENTER OFFICIAL ALL-ABOARD</label><div className="actionRow"><input id={`aa-${date}`} className="input compact" type="time" value={saved||allAboard||''} onChange={e=>save(e.target.value)}/>{saved&&<button className="btn" onClick={()=>save('')}>Clear</button>}</div></div>{!official&&<div style={{marginTop:10}}><span className="pill warning">Confirm official all-aboard onboard</span></div>}</>}</div>
+}
