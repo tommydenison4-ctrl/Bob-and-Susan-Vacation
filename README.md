@@ -2,6 +2,8 @@
 
 A mobile-first dark-mode travel companion built from Bob & Susan's trip book.
 
+<!-- deployment refresh -->
+
 ## Included now
 - Nov 12–26 itinerary and day pages
 - Port-day ship departure countdowns, with a separate `allAboard` field so the app never invents one
