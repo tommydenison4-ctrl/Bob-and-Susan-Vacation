@@ -1,3 +1,3 @@
-import './globals.css';import './map-gallery.css';import Link from 'next/link';import RegisterSW from '@/components/RegisterSW';
+import './globals.css';import './map-gallery.css';import './country-guide.css';import Link from 'next/link';import RegisterSW from '@/components/RegisterSW';
 export const metadata={title:'Bob & Susan Travel',description:'Mediterranean 2026 travel companion',manifest:'/manifest.webmanifest',themeColor:'#080d12',appleWebApp:{capable:true,statusBarStyle:'black-translucent',title:'Bob & Susan'}};
 export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body><RegisterSW/><div className="shell">{children}</div><nav className="nav"><div className="navin"><Link href="/">Today</Link><Link href="/trip">Trip</Link><Link href="/map">Map</Link><Link href="/cruise">Cruise</Link><Link href="/memories">Memories</Link><Link href="/tools">More</Link></div></nav></body></html>}
