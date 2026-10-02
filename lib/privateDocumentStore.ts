@@ -1,5 +1,5 @@
 export type PrivateDocumentKind='passport'|'health'|'insurance'|'id'|'other';
-export type PrivateDocumentRecord={id:string;person:'Bob'|'Susan'|'Both';kind:PrivateDocumentKind;title:string;notes?:string;expiry?:string;emergencyPhone?:string;blob?:Blob;mime?:string;fileName?:string;createdAt:string;updatedAt:string};
+export type PrivateDocumentRecord={id:string;person:'Bob'|'Susan'|'Both';kind:PrivateDocumentKind;title:string;notes?:string;expiry?:string;emergencyPhone?:string;issuer?:string;nationality?:string;coverageStart?:string;blob?:Blob;mime?:string;fileName?:string;createdAt:string;updatedAt:string};
 const DB='bob-susan-travel-private-documents';const STORE='documents';
 function openDb():Promise<IDBDatabase>{return new Promise((resolve,reject)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE,{keyPath:'id'})};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
 export async function listPrivateDocuments():Promise<PrivateDocumentRecord[]>{const db=await openDb();return new Promise((resolve,reject)=>{const r=db.transaction(STORE,'readonly').objectStore(STORE).getAll();r.onsuccess=()=>resolve((r.result||[]).sort((a,b)=>a.kind.localeCompare(b.kind)||a.person.localeCompare(b.person)));r.onerror=()=>reject(r.error)})}
