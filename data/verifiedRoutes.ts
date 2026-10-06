@@ -32,9 +32,8 @@ export const verifiedRoutes:Record<string,VerifiedStop[]>={
     {name:'Echo Point',lat:42.0940,lng:11.7890},
     {name:'Piazza della Vita',lat:42.0940,lng:11.7910},
     {name:'Museo Archeologico Nazionale',lat:42.0920,lng:11.7900},
-    {name:'Hotel de La Ville',lat:42.0930,lng:11.7950},
-    {name:'Civitavecchia waterfront',lat:42.0960,lng:11.7860},
-    {name:'Cruise terminal',lat:42.1010,lng:11.7750}
+    {name:'Hotel de La Ville · collect luggage',lat:42.0930,lng:11.7950},
+    {name:'Civitavecchia Cruise Port',lat:42.1010,lng:11.7750}
   ],
   '2026-11-16':[
     {name:'Piazza Tasso',lat:40.6260,lng:14.3760},
