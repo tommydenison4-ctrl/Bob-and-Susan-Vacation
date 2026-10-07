@@ -14,8 +14,8 @@ export const dayMapImages:Record<string,DayMapImage[]>={
     {label:'Civitavecchia walking route',src:group1.nov14_walk,note:'Approx. 3.7 km / 52 min before stops · Bob’s handwritten order',searchContext:'Civitavecchia, Italy',stops:['Hotel de La Ville','Corso Centocelle','Mercato Storico','Piazza Leandra','Archetto Passage / Piazza Aurelio Saffi','Fortino San Pietro / Lighthouse','Roman Dock','Fontana del Vanvitelli','Hotel de La Ville']},
   ],
   '2026-11-15':[
-    {label:'Morning Civitavecchia walk',src:group2.nov15_walk,note:'Stops 1–5 · return to Hotel de La Ville at stop 5 and collect luggage',searchContext:'Civitavecchia, Italy',stops:['Hotel de La Ville','Echo Point','Piazza della Vita','Museo Archeologico Nazionale','Hotel de La Ville · collect luggage']},
-    {label:'Taxi from hotel → cruise port',src:group2.nov15_port,note:'TAXI ONLY · after stop 5, collect luggage at Hotel de La Ville and take a taxi to the port. Do not walk to the terminal.',searchContext:'Civitavecchia, Italy',transport:'driving',stops:['Hotel de La Ville · taxi pickup','Civitavecchia Cruise Port']},
+    {label:'Morning Civitavecchia walk',src:group2.nov15_walk,note:'Start + stops 1–3 + return · return to Hotel de La Ville on return and collect luggage',searchContext:'Civitavecchia, Italy',stops:['Hotel de La Ville','Echo Point','Piazza della Vita','Museo Archeologico Nazionale','Hotel de La Ville · collect luggage']},
+    {label:'Taxi from hotel → cruise port',src:group2.nov15_port,note:'TAXI ONLY · after the morning loop, collect luggage at Hotel de La Ville and take a taxi to the port. Do not walk to the terminal.',searchContext:'Civitavecchia, Italy',transport:'driving',stops:['Hotel de La Ville · taxi pickup','Civitavecchia Cruise Port']},
   ],
   '2026-11-16':[
     {label:'Sorrento free-time walk',src:group2.nov16_sorrento,note:'Approx. 2 km / 29 min · Bob’s handwritten order',searchContext:'Sorrento, Italy',stops:['Piazza Tasso','Vallone dei Mulini','Giardini di Cataldo','Basilica di Sant’Antonino','Cloister of St. Francis','Villa Comunale','Piazza della Vittoria','Limonoro / Corso Italia','Piazza Tasso']},
